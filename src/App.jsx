@@ -42,11 +42,6 @@ function App() {
     setSelectedEvent(event);
   };
 
-  const handleEventChange = (eventId) => {
-    const event = events.find((item) => item.id === Number(eventId));
-    setSelectedEvent(event);
-  };
-
   const handleCloseRegistration = () => {
     setSelectedEvent(null);
   };
@@ -99,8 +94,6 @@ function App() {
             </button>
             <RegistrationForm
               selectedEvent={selectedEvent}
-              events={events}
-              onEventChange={handleEventChange}
               onRegistrationComplete={handleRegistrationComplete}
               titleId="registration-modal-title"
             />
