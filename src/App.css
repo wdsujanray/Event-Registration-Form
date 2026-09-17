@@ -37,7 +37,7 @@ body {
 ================================ */
 
 .events-container {
-  max-width: 1200px;
+  width: min(100%, 1200px);
   margin: auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -49,6 +49,8 @@ body {
 ================================ */
 
 .event-card {
+  display: flex;
+  flex-direction: column;
   background: #ffffff;
   border-radius: 18px;
   padding: 28px;
@@ -100,6 +102,7 @@ body {
 /* Description */
 
 .event-card p:last-of-type {
+  flex: 1;
   margin-top: 18px;
   padding-top: 15px;
   border-top: 1px solid #e2e8f0;
@@ -279,6 +282,10 @@ body {
   .app > h1 {
     font-size: 30px;
   }
+
+  .event-card {
+    padding: 24px;
+  }
 }
 
 /* ================================
@@ -287,7 +294,7 @@ body {
 
 @media (max-width: 600px) {
   .app {
-    padding: 25px 15px;
+    padding: 24px 14px;
   }
 
   .app > h1 {
@@ -300,7 +307,7 @@ body {
   }
 
   .event-card {
-    padding: 22px;
+    padding: 22px 18px;
   }
 
   .event-card h3 {
@@ -308,11 +315,32 @@ body {
   }
 
   .form-container {
-    margin-top: 35px;
-    padding: 25px 20px;
+    margin-top: 0;
+    padding: 28px 18px 22px;
+    border-radius: 16px;
   }
 
   .form-container h2 {
+    max-width: calc(100% - 32px);
+    margin: 0 auto 24px;
+    font-size: 22px;
+    line-height: 1.25;
+  }
+
+  .modal-backdrop {
+    align-items: flex-start;
+    padding: 14px 10px;
+  }
+
+  .registration-modal {
+    max-height: calc(100vh - 28px);
+  }
+
+  .modal-close {
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
     font-size: 22px;
   }
 }
