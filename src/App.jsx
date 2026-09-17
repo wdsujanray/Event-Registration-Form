@@ -48,8 +48,9 @@ function App() {
     setRegistrationData(formData);
   };
 
-  const handleChooseDifferentEvent = () => {
-    setSelectedEvent(null);
+  const handleChooseDifferentEvent = (eventId) => {
+    const nextEvent = events.find((event) => event.id === Number(eventId));
+    setSelectedEvent(nextEvent);
   };
 
   /* Separate Success Page */
@@ -85,15 +86,10 @@ function App() {
         <>
           <RegistrationForm
             selectedEvent={selectedEvent}
+            events={events}
+            onEventChange={handleChooseDifferentEvent}
             onRegistrationComplete={handleRegistrationComplete}
           />
-          <button
-            className="change-event-button"
-            type="button"
-            onClick={handleChooseDifferentEvent}
-          >
-            Choose a different event
-          </button>
         </>
       )}
     </div>

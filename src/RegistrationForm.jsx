@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-function RegistrationForm({ selectedEvent, onRegistrationComplete }) {
+function RegistrationForm({
+  selectedEvent,
+  events,
+  onEventChange,
+  onRegistrationComplete,
+}) {
   const [formData, setFormData] = useState({
     studentName: "",
     enrollmentId: "",
@@ -25,6 +30,21 @@ function RegistrationForm({ selectedEvent, onRegistrationComplete }) {
   return (
     <div className="form-container">
       <h2>Register for: {selectedEvent.name}</h2>
+
+      <div className="event-selector">
+        <label htmlFor="event-select">Select a different event</label>
+        <select
+          id="event-select"
+          value={selectedEvent.id}
+          onChange={(e) => onEventChange(e.target.value)}
+        >
+          {events.map((event) => (
+            <option key={event.id} value={event.id}>
+              {event.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="selected-event">
         <p>

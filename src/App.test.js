@@ -9,14 +9,15 @@ test('renders the event registration page', () => {
   ).toBeInTheDocument();
 });
 
-test('allows choosing a different event during registration', () => {
+test('allows choosing a different event from the registration dropdown', () => {
   render(<App />);
 
   fireEvent.click(screen.getAllByRole('button', { name: /register/i })[0]);
   expect(screen.getByRole('heading', { name: /register for: tech fest 2026/i })).toBeInTheDocument();
 
-  fireEvent.click(screen.getByRole('button', { name: /choose a different event/i }));
+  fireEvent.change(screen.getByLabelText(/select a different event/i), {
+    target: { value: '2' },
+  });
 
-  expect(screen.getByRole('heading', { name: /university event registration/i })).toBeInTheDocument();
-  expect(screen.getAllByRole('button', { name: /register/i })).toHaveLength(3);
+  expect(screen.getByRole('heading', { name: /register for: cultural night/i })).toBeInTheDocument();
 });
