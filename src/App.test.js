@@ -43,3 +43,18 @@ test('normalizes phone numbers and alerts for invalid details', () => {
   expect(screen.getByRole('dialog')).toBeInTheDocument();
   alertSpy.mockRestore();
 });
+
+test('changes phone format when a different country is selected', () => {
+  render(<App />);
+  fireEvent.click(screen.getAllByRole('button', { name: /event registration/i })[0]);
+
+  fireEvent.change(screen.getByLabelText(/country/i), {
+    target: { value: 'AU' },
+  });
+  fireEvent.change(screen.getByLabelText(/phone number/i), {
+    target: { value: '+61 412-345-678' },
+  });
+
+  expect(screen.getByLabelText(/phone number/i)).toHaveValue('412345678');
+  expect(screen.getByLabelText(/phone number/i)).toHaveAttribute('maxLength', '9');
+});
