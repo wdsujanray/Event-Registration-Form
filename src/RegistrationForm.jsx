@@ -13,15 +13,36 @@ function RegistrationForm({
   });
 
   const handleChange = (e) => {
+    const value = e.target.name === "phone"
+      ? e.target.value.replace(/\D/g, "").slice(-10)
+      : e.target.value;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const enrollmentPattern = /^[A-Za-z0-9][A-Za-z0-9/-]{2,19}$/;
+
+    if (formData.phone.length !== 10) {
+      window.alert("Please enter a valid 10-digit phone number.");
+      return;
+    }
+
+    if (!emailPattern.test(formData.email)) {
+      window.alert("Please enter a valid email address.");
+      return;
+    }
+
+    if (!enrollmentPattern.test(formData.enrollmentId)) {
+      window.alert("Enrollment ID must be 3-20 letters, numbers, hyphens, or slashes.");
+      return;
+    }
 
     onRegistrationComplete(formData);
   };
@@ -46,8 +67,9 @@ function RegistrationForm({
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Student Name</label>
+          <label htmlFor="student-name">Student Name</label>
           <input
+            id="student-name"
             type="text"
             name="studentName"
             value={formData.studentName}
@@ -58,20 +80,23 @@ function RegistrationForm({
         </div>
 
         <div>
-          <label>Enrollment ID</label>
+          <label htmlFor="enrollment-id">Enrollment ID</label>
           <input
+            id="enrollment-id"
             type="text"
             name="enrollmentId"
             value={formData.enrollmentId}
             onChange={handleChange}
-            placeholder="Enter enrollment ID"
+            placeholder="e.g. CSE/2026/001"
+            pattern="[A-Za-z0-9][A-Za-z0-9/-]{2,19}"
             required
           />
         </div>
 
         <div>
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             type="email"
             name="email"
             value={formData.email}
@@ -82,13 +107,17 @@ function RegistrationForm({
         </div>
 
         <div>
-          <label>Phone</label>
+          <label htmlFor="phone">Phone</label>
           <input
+            id="phone"
             type="tel"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
             placeholder="Enter phone number"
+            inputMode="numeric"
+            maxLength="10"
+            pattern="[0-9]{10}"
             required
           />
         </div>
