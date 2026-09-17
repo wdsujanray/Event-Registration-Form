@@ -59,17 +59,50 @@ test('changes phone format when a different country is selected', () => {
   expect(screen.getByLabelText(/phone number/i)).toHaveAttribute('maxLength', '9');
 });
 
-test('normalizes enrollment IDs to the required format', () => {
+test('accepts the required ADTU enrollment ID format', () => {
+  const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+  render(<App />);
+  fireEvent.click(screen.getAllByRole('button', { name: /event registration/i })[0]);
+
+  fireEvent.change(screen.getByLabelText(/student name/i), {
+    target: { value: 'Test Student' },
+  });
+  fireEvent.change(screen.getByLabelText(/enrollment id/i), {
+    target: { value: 'adtu/1/2024-27/bcao/119' },
+  });
+  fireEvent.change(screen.getByLabelText(/email/i), {
+    target: { value: 'student@example.com' },
+  });
+  fireEvent.change(screen.getByLabelText(/phone number/i), {
+    target: { value: '9876543210' },
+  });
+  fireEvent.submit(screen.getByRole('button', { name: /submit registration/i }).closest('form'));
+
+  expect(alertSpy).not.toHaveBeenCalled();
+  expect(screen.getByText(/registration successful/i)).toBeInTheDocument();
+  expect(screen.getByText('ADTU/1/2024-27/BCAO/119')).toBeInTheDocument();
+  alertSpy.mockRestore();
+});
+
+test('rejects enrollment IDs with missing required slashes', () => {
+  const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
   render(<App />);
   fireEvent.click(screen.getAllByRole('button', { name: /event registration/i })[0]);
 
   fireEvent.change(screen.getByLabelText(/enrollment id/i), {
-    target: { value: 'adtu/1/2024-27/bcao/119' },
+    target: { value: 'ADTU-1-2024-27-BCAO-119' },
   });
+  fireEvent.change(screen.getByLabelText(/phone number/i), {
+    target: { value: '9876543210' },
+  });
+  fireEvent.change(screen.getByLabelText(/email/i), {
+    target: { value: 'student@example.com' },
+  });
+  fireEvent.submit(screen.getByRole('button', { name: /submit registration/i }).closest('form'));
 
-  expect(screen.getByLabelText(/enrollment id/i)).toHaveValue('ADTU/1/2024-27/BCAO/119');
-  expect(screen.getByLabelText(/enrollment id/i)).toHaveAttribute(
-    'pattern',
-    'ADTU/[0-9]+/[0-9]{4}-[0-9]{2}/[A-Z]{4}/[0-9]{3}'
+  expect(alertSpy).toHaveBeenCalledWith(
+    'Enrollment ID must match ADTU/1/2024-27/BCAO/119.'
   );
+  expect(screen.getByRole('dialog')).toBeInTheDocument();
+  alertSpy.mockRestore();
 });
