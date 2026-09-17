@@ -30,6 +30,8 @@ function RegistrationForm({
   const handleChange = (e) => {
     const value = e.target.name === "phone"
       ? e.target.value.replace(/\D/g, "").slice(-selectedCountry.digits)
+      : e.target.name === "enrollmentId"
+        ? e.target.value.toUpperCase()
       : e.target.value;
 
     setFormData({
@@ -50,7 +52,7 @@ function RegistrationForm({
     e.preventDefault();
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const enrollmentPattern = /^[A-Za-z0-9][A-Za-z0-9/-]{2,19}$/;
+    const enrollmentPattern = /^ADTU\/\d+\/\d{4}-\d{2}\/[A-Z]{4}\/\d{3}$/;
 
     if (formData.phone.length !== selectedCountry.digits) {
       window.alert(
@@ -65,7 +67,7 @@ function RegistrationForm({
     }
 
     if (!enrollmentPattern.test(formData.enrollmentId)) {
-      window.alert("Enrollment ID must be 3-20 letters, numbers, hyphens, or slashes.");
+      window.alert("Enrollment ID must follow this format: ADTU/1/2024-27/BCAO/119.");
       return;
     }
 
@@ -116,8 +118,9 @@ function RegistrationForm({
             name="enrollmentId"
             value={formData.enrollmentId}
             onChange={handleChange}
-            placeholder="e.g. CSE/2026/001"
-            pattern="[A-Za-z0-9][A-Za-z0-9/-]{2,19}"
+            placeholder="ADTU/1/2024-27/BCAO/119"
+            pattern="ADTU/[0-9]+/[0-9]{4}-[0-9]{2}/[A-Z]{4}/[0-9]{3}"
+            title="Use the format ADTU/1/2024-27/BCAO/119"
             required
           />
         </div>

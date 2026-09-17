@@ -58,3 +58,18 @@ test('changes phone format when a different country is selected', () => {
   expect(screen.getByLabelText(/phone number/i)).toHaveValue('412345678');
   expect(screen.getByLabelText(/phone number/i)).toHaveAttribute('maxLength', '9');
 });
+
+test('normalizes enrollment IDs to the required format', () => {
+  render(<App />);
+  fireEvent.click(screen.getAllByRole('button', { name: /event registration/i })[0]);
+
+  fireEvent.change(screen.getByLabelText(/enrollment id/i), {
+    target: { value: 'adtu/1/2024-27/bcao/119' },
+  });
+
+  expect(screen.getByLabelText(/enrollment id/i)).toHaveValue('ADTU/1/2024-27/BCAO/119');
+  expect(screen.getByLabelText(/enrollment id/i)).toHaveAttribute(
+    'pattern',
+    'ADTU/[0-9]+/[0-9]{4}-[0-9]{2}/[A-Z]{4}/[0-9]{3}'
+  );
+});
