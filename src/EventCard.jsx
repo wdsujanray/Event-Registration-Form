@@ -1,8 +1,8 @@
 import React from "react";
 
-function EventCard({ event, onSelectEvent, locked }) {
+function EventCard({ event, onSelectEvent, selected }) {
   return (
-    <div className={`event-card ${locked ? "locked" : ""}`}>
+    <div className={`event-card ${selected ? "selected" : ""}`}>
       <h3>{event.name}</h3>
 
       <p>
@@ -21,9 +21,8 @@ function EventCard({ event, onSelectEvent, locked }) {
 
       <button
         onClick={() => onSelectEvent(event)}
-        disabled={locked}
       >
-        {locked ? "Event Selected" : "Register"}
+        {selected ? "Selected" : "Register"}
       </button>
     </div>
   );

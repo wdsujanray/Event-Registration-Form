@@ -39,9 +39,7 @@ function App() {
   ];
 
   const handleSelectEvent = (event) => {
-    if (!selectedEvent) {
-      setSelectedEvent(event);
-    }
+    setSelectedEvent(event);
   };
 
   const handleRegistrationComplete = (formData) => {
@@ -69,10 +67,7 @@ function App() {
             key={event.id}
             event={event}
             onSelectEvent={handleSelectEvent}
-            locked={
-              selectedEvent !== null &&
-              selectedEvent.id !== event.id
-            }
+            selected={selectedEvent?.id === event.id}
           />
         ))}
       </div>
