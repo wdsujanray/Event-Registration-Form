@@ -148,6 +148,23 @@ body {
   position: relative;
 }
 
+.change-event-button {
+  display: block;
+  margin: 16px auto 0;
+  padding: 10px 18px;
+  border: 1px solid #2563eb;
+  border-radius: 10px;
+  background: transparent;
+  color: #1d4ed8;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.change-event-button:hover {
+  background: #eff6ff;
+}
+
 /* Highlight top border */
 
 .form-container::before {

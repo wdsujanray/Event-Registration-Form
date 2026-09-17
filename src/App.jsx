@@ -39,11 +39,17 @@ function App() {
   ];
 
   const handleSelectEvent = (event) => {
-    setSelectedEvent(event);
+    if (!selectedEvent) {
+      setSelectedEvent(event);
+    }
   };
 
   const handleRegistrationComplete = (formData) => {
     setRegistrationData(formData);
+  };
+
+  const handleChooseDifferentEvent = () => {
+    setSelectedEvent(null);
   };
 
   /* Separate Success Page */
@@ -67,16 +73,28 @@ function App() {
             key={event.id}
             event={event}
             onSelectEvent={handleSelectEvent}
-            selected={selectedEvent?.id === event.id}
+            locked={
+              selectedEvent !== null &&
+              selectedEvent.id !== event.id
+            }
           />
         ))}
       </div>
 
       {selectedEvent && (
-        <RegistrationForm
-          selectedEvent={selectedEvent}
-          onRegistrationComplete={handleRegistrationComplete}
-        />
+        <>
+          <RegistrationForm
+            selectedEvent={selectedEvent}
+            onRegistrationComplete={handleRegistrationComplete}
+          />
+          <button
+            className="change-event-button"
+            type="button"
+            onClick={handleChooseDifferentEvent}
+          >
+            Choose a different event
+          </button>
+        </>
       )}
     </div>
   );
