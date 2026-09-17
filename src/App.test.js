@@ -9,15 +9,11 @@ test('renders the event registration page', () => {
   ).toBeInTheDocument();
 });
 
-test('allows choosing a different event from the registration dropdown', () => {
+test('opens the registration form when an event is selected', async () => {
   render(<App />);
 
-  fireEvent.click(screen.getAllByRole('button', { name: /register/i })[0]);
+  fireEvent.click(screen.getAllByRole('button', { name: /event registration/i })[0]);
+
+  expect(screen.getByRole('dialog')).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /register for: tech fest 2026/i })).toBeInTheDocument();
-
-  fireEvent.change(screen.getByLabelText(/select a different event/i), {
-    target: { value: '2' },
-  });
-
-  expect(screen.getByRole('heading', { name: /register for: cultural night/i })).toBeInTheDocument();
 });

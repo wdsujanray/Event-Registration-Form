@@ -5,6 +5,7 @@ function RegistrationForm({
   events,
   onEventChange,
   onRegistrationComplete,
+  titleId,
 }) {
   const [formData, setFormData] = useState({
     studentName: "",
@@ -29,7 +30,7 @@ function RegistrationForm({
 
   return (
     <div className="form-container">
-      <h2>Register for: {selectedEvent.name}</h2>
+      <h2 id={titleId}>Register for: {selectedEvent.name}</h2>
 
       <div className="event-selector">
         <label htmlFor="event-select">Select a different event</label>

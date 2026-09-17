@@ -39,18 +39,20 @@ function App() {
   ];
 
   const handleSelectEvent = (event) => {
-    if (!selectedEvent) {
-      setSelectedEvent(event);
-    }
+    setSelectedEvent(event);
+  };
+
+  const handleEventChange = (eventId) => {
+    const event = events.find((item) => item.id === Number(eventId));
+    setSelectedEvent(event);
+  };
+
+  const handleCloseRegistration = () => {
+    setSelectedEvent(null);
   };
 
   const handleRegistrationComplete = (formData) => {
     setRegistrationData(formData);
-  };
-
-  const handleChooseDifferentEvent = (eventId) => {
-    const nextEvent = events.find((event) => event.id === Number(eventId));
-    setSelectedEvent(nextEvent);
   };
 
   /* Separate Success Page */
@@ -74,23 +76,36 @@ function App() {
             key={event.id}
             event={event}
             onSelectEvent={handleSelectEvent}
-            locked={
-              selectedEvent !== null &&
-              selectedEvent.id !== event.id
-            }
           />
         ))}
       </div>
 
       {selectedEvent && (
-        <>
-          <RegistrationForm
-            selectedEvent={selectedEvent}
-            events={events}
-            onEventChange={handleChooseDifferentEvent}
-            onRegistrationComplete={handleRegistrationComplete}
-          />
-        </>
+        <div className="modal-backdrop" onMouseDown={handleCloseRegistration}>
+          <div
+            className="registration-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="registration-modal-title"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <button
+              className="modal-close"
+              type="button"
+              aria-label="Close registration form"
+              onClick={handleCloseRegistration}
+            >
+              &times;
+            </button>
+            <RegistrationForm
+              selectedEvent={selectedEvent}
+              events={events}
+              onEventChange={handleEventChange}
+              onRegistrationComplete={handleRegistrationComplete}
+              titleId="registration-modal-title"
+            />
+          </div>
+        </div>
       )}
     </div>
   );

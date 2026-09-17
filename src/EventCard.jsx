@@ -1,8 +1,8 @@
 import React from "react";
 
-function EventCard({ event, onSelectEvent, selected }) {
+function EventCard({ event, onSelectEvent }) {
   return (
-    <div className={`event-card ${selected ? "selected" : ""}`}>
+    <div className="event-card">
       <h3>{event.name}</h3>
 
       <p>
@@ -22,7 +22,7 @@ function EventCard({ event, onSelectEvent, selected }) {
       <button
         onClick={() => onSelectEvent(event)}
       >
-        {selected ? "Selected" : "Register"}
+        Event Registration
       </button>
     </div>
   );
